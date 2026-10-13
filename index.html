@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArrayLab | Student Results Manager</title>
+<style>
+:root{--navy:#10233f;--blue:#315efb;--sky:#eaf0ff;--ink:#1d2939;--muted:#667085;--line:#e4e9f1;--bg:#f5f7fb;--green:#16865c;--red:#c24141}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif}
+header{background:linear-gradient(120deg,#10233f,#244e9d);color:#fff;padding:28px 20px 34px}
+.wrap{max-width:1120px;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{font-size:21px;font-weight:800;letter-spacing:.2px}.pill{font-size:12px;background:#ffffff20;border:1px solid #ffffff35;padding:7px 11px;border-radius:99px}
+h1{font-size:clamp(28px,4vw,42px);margin:30px 0 10px;line-height:1.12;max-width:720px}header p{margin:0;color:#dce7ff;max-width:690px;line-height:1.6}
+main{padding:24px 20px 50px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:-3px}.stat,.panel{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 15px #10233f08}.stat{padding:17px}.stat .label{color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}.stat .value{font-size:27px;font-weight:800;margin-top:8px}.stat .sub{font-size:12px;color:var(--muted);margin-top:4px}
+.layout{display:grid;grid-template-columns:340px 1fr;gap:17px;margin-top:18px}.panel{padding:21px}.panel h2{font-size:18px;margin:0 0 7px}.intro{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 18px}
+label{display:block;font-size:13px;font-weight:700;margin:13px 0 7px}input,select{width:100%;padding:11px 12px;border:1px solid #d5dce7;border-radius:9px;background:#fff;font:inherit;font-size:14px;outline:none}input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #315efb17}
+button{border:0;border-radius:9px;padding:11px 14px;font-weight:750;font-size:13px;cursor:pointer;transition:.15s}button:hover{transform:translateY(-1px)}.primary{background:var(--blue);color:#fff;width:100%;margin-top:17px}.secondary{background:var(--sky);color:#2449c8}.danger{background:#fff0f0;color:var(--red)}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{padding:9px 11px}
+.note{margin-top:16px;padding:12px;border-radius:10px;background:#f0f5ff;color:#334e83;font-size:12px;line-height:1.55}
+.table-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:15px}.table-head h2{margin:0}.search{max-width:230px}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.55px;background:#f8faff}th,td{padding:13px 12px;border-bottom:1px solid var(--line);font-size:13px}td{font-weight:550}tbody tr:hover{background:#fafbff}.grade{display:inline-block;padding:5px 9px;border-radius:99px;background:#eaf8f1;color:var(--green);font-size:11px;font-weight:800}.grade.fail{background:#fff0f0;color:var(--red)}.empty{text-align:center;color:var(--muted);padding:30px 12px}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:17px}.array-code{background:#101b2d;color:#dce8ff;border-radius:12px;padding:15px;font:12px/1.8 Consolas,monospace;overflow:auto}.array-code .hl{color:#8df0c1}.concept{font-size:13px;line-height:1.65;color:#475467}.concept strong{color:var(--ink)}.toast{margin-top:10px;font-size:13px;min-height:18px;color:var(--green)}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr}}
+@media(max-width:430px){.stats{gap:8px}.stat{padding:13px}.stat .value{font-size:23px}.panel{padding:16px}header{padding-top:22px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top"><div class="brand">▦ ArrayLab</div><div class="pill">DATA STRUCTURES PROJECT</div></div>
+    <h1>Student Results<br>Management System</h1>
+    <p>A practical demonstration of how arrays organise, access and process student scores. Add records, search students, calculate class statistics and explore the array behind the application.</p>
+  </div>
+</header>
+<main class="wrap">
+  <section class="stats" aria-label="Class summary">
+    <div class="stat"><div class="label">Students</div><div class="value" id="total">0</div><div class="sub">Records in the array</div></div>
+    <div class="stat"><div class="label">Class average</div><div class="value" id="average">—</div><div class="sub">Mean of all scores</div></div>
+    <div class="stat"><div class="label">Highest score</div><div class="value" id="highest">—</div><div class="sub" id="topStudent">No records yet</div></div>
+    <div class="stat"><div class="label">Pass rate</div><div class="value" id="passRate">—</div><div class="sub">Pass mark: 50%</div></div>
+  </section>
+  <section class="layout">
+    <aside class="panel">
+      <h2>Add a student result</h2>
+      <p class="intro">Each submitted record becomes an object stored inside the <strong>students</strong> array.</p>
+      <form id="studentForm">
+        <label for="studentName">Student name</label>
+        <input id="studentName" placeholder="e.g. Ama Mensah" maxlength="70" required>
+        <label for="studentId">Student ID</label>
+        <input id="studentId" placeholder="e.g. IT/2026/001" maxlength="30" required>
+        <label for="course">Course</label>
+        <input id="course" placeholder="e.g. Data Structures" maxlength="60" required>
+        <label for="score">Score (0–100)</label>
+        <input id="score" type="number" min="0" max="100" step="1" placeholder="e.g. 78" required>
+        <button class="primary" type="submit">＋ Add result to array</button>
+        <div class="toast" id="message" role="status"></div>
+      </form>
+      <div class="note"><strong>Why an array?</strong> One array can hold many student records. A loop can visit every record to calculate averages, search for a student or find the highest score.</div>
+    </aside>
+    <section class="panel">
+      <div class="table-head"><h2>Student records</h2><input class="search" id="search" placeholder="Search name, ID or course…" aria-label="Search records"></div>
+      <div class="actions" style="margin-bottom:14px">
+        <button class="secondary" id="sortBtn" type="button">Sort by score ↓</button>
+        <button class="secondary" id="sampleBtn" type="button">Load sample data</button>
+        <button class="danger" id="clearBtn" type="button">Clear all</button>
+      </div>
+      <div class="table-wrap">
+        <table><thead><tr><th>#</th><th>Student</th><th>ID</th><th>Course</th><th>Score</th><th>Grade</th><th>Action</th></tr></thead><tbody id="records"></tbody></table>
+        <div class="empty" id="empty">No student records yet. Add a result or load sample data.</div>
+      </div>
+    </section>
+  </section>
+  <section class="footer-grid">
+    <div class="panel">
+      <h2>Array in action</h2>
+      <p class="intro">This is the central data structure used by the application.</p>
+      <pre class="array-code"><span class="hl">const students = [</span>
+  { name: "Ama Mensah", id: "IT001", score: 78 },
+  { name: "Kojo Asare", id: "IT002", score: 64 },
+  { name: "Esi Boateng", id: "IT003", score: 91 }
+<span class="hl">];</span>
+
+// Access one record by index
+students[0].name; // "Ama Mensah"
+
+// Visit each record
+students.forEach(student => {
+  // process each student's score
+});</pre>
+    </div>
+    <div class="panel">
+      <h2>How the array supports the system</h2>
+      <div class="concept">
+        <p><strong>1. Storage:</strong> <code>students</code> groups related records in one ordered collection.</p>
+        <p><strong>2. Indexing:</strong> an array index provides direct access to a position, such as <code>students[0]</code>.</p>
+        <p><strong>3. Traversal:</strong> loops visit records to calculate the class average and pass rate.</p>
+        <p><strong>4. Searching:</strong> the application checks array elements to find matching names, IDs or courses.</p>
+        <p><strong>5. Updating:</strong> adding and removing records changes the collection as the class list changes.</p>
+        <p><strong>Important limitation:</strong> this demo stores data in memory, so records reset when the page is refreshed. A production system would use persistent storage and access controls.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+const students = [
+  {name:"Ama Mensah", id:"IT/2026/001", course:"Data Structures", score:78},
+  {name:"Kojo Asare", id:"IT/2026/002", course:"Data Structures", score:64},
+  {name:"Esi Boateng", id:"IT/2026/003", course:"Data Structures", score:91},
+  {name:"Yaw Ofori", id:"IT/2026/004", course:"Data Structures", score:47}
+];
+let sortDescending = true;
+let sampleLoaded = true;
+
+function gradeFor(score){
+  if(score >= 80) return "A";
+  if(score >= 70) return "B";
+  if(score >= 60) return "C";
+  if(score >= 50) return "D";
+  return "F";
+}
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+function render(){
+  const term = document.getElementById("search").value.trim().toLowerCase();
+  const filtered = students.filter(s => [s.name,s.id,s.course].some(v => v.toLowerCase().includes(term)));
+  const tbody = document.getElementById("records");
+  tbody.innerHTML = "";
+  filtered.forEach((s, index) => {
+    const originalIndex = students.indexOf(s);
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${index+1}</td><td>${escapeHTML(s.name)}</td><td>${escapeHTML(s.id)}</td><td>${escapeHTML(s.course)}</td><td>${s.score}%</td><td><span class="grade ${s.score<50?'fail':''}">${gradeFor(s.score)}</span></td><td><button class="danger" type="button" data-remove="${originalIndex}" aria-label="Remove ${escapeHTML(s.name)}">Remove</button></td>`;
+    tbody.appendChild(tr);
+  });
+  document.getElementById("empty").style.display = filtered.length ? "none" : "block";
+  document.getElementById("total").textContent = students.length;
+  if(students.length){
+    const totalScore = students.reduce((sum,s)=>sum+s.score,0);
+    const top = students.reduce((best,s)=>s.score>best.score?s:best,students[0]);
+    document.getElementById("average").textContent = (totalScore/students.length).toFixed(1)+"%";
+    document.getElementById("highest").textContent = top.score+"%";
+    document.getElementById("topStudent").textContent = top.name;
+    document.getElementById("passRate").textContent = Math.round(students.filter(s=>s.score>=50).length/students.length*100)+"%";
+  } else {
+    document.getElementById("average").textContent = "—";
+    document.getElementById("highest").textContent = "—";
+    document.getElementById("topStudent").textContent = "No records yet";
+    document.getElementById("passRate").textContent = "—";
+  }
+}
+document.getElementById("studentForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const name = document.getElementById("studentName").value.trim();
+  const id = document.getElementById("studentId").value.trim();
+  const course = document.getElementById("course").value.trim();
+  const score = Number(document.getElementById("score").value);
+  const message = document.getElementById("message");
+  if(!name || !id || !course || !Number.isInteger(score) || score<0 || score>100){
+    message.style.color = "var(--red)"; message.textContent = "Enter all fields and a whole-number score from 0 to 100."; return;
+  }
+  if(students.some(s=>s.id.toLowerCase()===id.toLowerCase())){
+    message.style.color = "var(--red)"; message.textContent = "That student ID already exists."; return;
+  }
+  students.push({name,id,course,score});
+  event.target.reset();
+  message.style.color = "var(--green)"; message.textContent = "Result added to the students array.";
+  render();
+});
+document.getElementById("records").addEventListener("click", event=>{
+  const index = event.target.dataset.remove;
+  if(index !== undefined){students.splice(Number(index),1);render();}
+});
+document.getElementById("search").addEventListener("input",render);
+document.getElementById("sortBtn").addEventListener("click",()=>{
+  students.sort((a,b)=>sortDescending?b.score-a.score:a.score-b.score);
+  sortDescending=!sortDescending;
+  document.getElementById("sortBtn").textContent=sortDescending?"Sort by score ↓":"Sort by score ↑";
+  render();
+});
+document.getElementById("sampleBtn").addEventListener("click",()=>{
+  students.splice(0,students.length,
+    {name:"Ama Mensah",id:"IT/2026/001",course:"Data Structures",score:78},
+    {name:"Kojo Asare",id:"IT/2026/002",course:"Data Structures",score:64},
+    {name:"Esi Boateng",id:"IT/2026/003",course:"Data Structures",score:91},
+    {name:"Yaw Ofori",id:"IT/2026/004",course:"Data Structures",score:47});
+  document.getElementById("message").textContent="Sample records loaded.";
+  render();
+});
+document.getElementById("clearBtn").addEventListener("click",()=>{
+  if(confirm("Remove all student records?")){students.splice(0,students.length);render();}
+});
+render();
+</script>
+</body>
+</html>
