@@ -18,6 +18,20 @@ button{border:0;border-radius:9px;padding:11px 14px;font-weight:750;font-size:13
 .table-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:15px}.table-head h2{margin:0}.search{max-width:230px}
 .table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.55px;background:#f8faff}th,td{padding:13px 12px;border-bottom:1px solid var(--line);font-size:13px}td{font-weight:550}tbody tr:hover{background:#fafbff}.grade{display:inline-block;padding:5px 9px;border-radius:99px;background:#eaf8f1;color:var(--green);font-size:11px;font-weight:800}.grade.fail{background:#fff0f0;color:var(--red)}.empty{text-align:center;color:var(--muted);padding:30px 12px}
 .footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:17px}.array-code{background:#101b2d;color:#dce8ff;border-radius:12px;padding:15px;font:12px/1.8 Consolas,monospace;overflow:auto}.array-code .hl{color:#8df0c1}.concept{font-size:13px;line-height:1.65;color:#475467}.concept strong{color:var(--ink)}.toast{margin-top:10px;font-size:13px;min-height:18px;color:var(--green)}
+.assignment{background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(20px,3vw,30px);margin-bottom:22px;box-shadow:0 4px 15px #10233f08}
+.assignment-kicker{display:inline-block;color:#2449c8;background:var(--sky);border-radius:99px;padding:7px 11px;font-size:11px;font-weight:800;letter-spacing:.7px;text-transform:uppercase}
+.assignment h2{font-size:clamp(22px,3vw,30px);line-height:1.2;margin:14px 0 12px;color:var(--navy)}
+.assignment h3{font-size:17px;margin:24px 0 9px;color:var(--navy)}
+.assignment p,.assignment li{font-size:14px;line-height:1.75;color:#475467}
+.assignment p{margin:8px 0}.assignment ul,.assignment ol{padding-left:22px;margin:8px 0}
+.application-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.application-item{border:1px solid var(--line);border-radius:12px;padding:15px;background:#fbfcff}
+.application-item strong{display:block;color:var(--ink);font-size:14px;margin-bottom:5px}
+.application-item span{display:block;color:var(--muted);font-size:13px;line-height:1.6}
+.assignment-callout{background:#f0f5ff;border-left:4px solid var(--blue);padding:14px 16px;border-radius:8px;margin-top:14px}
+.assignment-callout p{margin:0;color:#334e83}
+@media(max-width:600px){.application-grid{grid-template-columns:1fr}.assignment{padding:18px}}
+
 @media(max-width:850px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr}}
 @media(max-width:430px){.stats{gap:8px}.stat{padding:13px}.stat .value{font-size:23px}.panel{padding:16px}header{padding-top:22px}}
 </style>
@@ -31,6 +45,44 @@ button{border:0;border-radius:9px;padding:11px 14px;font-weight:750;font-size:13
   </div>
 </header>
 <main class="wrap">
+
+  <section class="assignment" aria-labelledby="assignment-title">
+    <span class="assignment-kicker">Assignment answer · Arrays as a data structure</span>
+    <h2 id="assignment-title">Real-World Applications of Arrays</h2>
+    <p><strong>Introduction:</strong> An array is a data structure that stores a collection of elements under one variable name. Each element can be accessed using its position, called an index. Arrays are useful when a program needs to keep related values together and process them efficiently.</p>
+
+    <h3>1. Real-world applications that use arrays</h3>
+    <div class="application-grid">
+      <div class="application-item"><strong>Student results management</strong><span>Stores students' scores or student records so a school system can calculate averages, identify the highest score, search for a student and determine pass rates.</span></div>
+      <div class="application-item"><strong>Inventory management</strong><span>Stores product quantities, prices or product records so a shop can check stock, update quantities and identify items that need restocking.</span></div>
+      <div class="application-item"><strong>Banking and transaction analysis</strong><span>Holds a sequence of transaction amounts for calculating totals, finding particular transactions and reviewing account activity.</span></div>
+      <div class="application-item"><strong>Hospital and clinic systems</strong><span>Can organise lists of appointments, ward observations or patient-related records for searching and processing. Sensitive patient information also requires secure, persistent storage and access controls.</span></div>
+      <div class="application-item"><strong>Weather monitoring</strong><span>Stores daily temperatures or rainfall readings so a system can calculate averages, find maximum and minimum values, and compare readings over time.</span></div>
+      <div class="application-item"><strong>Image and audio processing</strong><span>Represents pixels, colour values or sampled sound data in ordered collections that software processes to edit, display or analyse media.</span></div>
+    </div>
+
+    <h3>2. Why arrays are necessary</h3>
+    <ol>
+      <li><strong>Organised storage:</strong> related values can be kept together instead of creating a separate variable for every item.</li>
+      <li><strong>Direct access by index:</strong> a program can access an element at a known position, for example <code>scores[0]</code>.</li>
+      <li><strong>Efficient traversal:</strong> loops can process every element to calculate totals, averages, maximums or minimums.</li>
+      <li><strong>Simpler searching and sorting:</strong> programs can examine elements to find a target value or arrange data in a useful order.</li>
+      <li><strong>Easier maintenance:</strong> elements can be updated, and many array-based collections allow elements to be added or removed through appropriate operations.</li>
+    </ol>
+    <p>Arrays are particularly suitable when data items are related and are often processed together. A limitation is that a basic array has a fixed length in some languages, and inserting or deleting elements may require shifting data. In JavaScript, arrays can grow or shrink dynamically. An array alone is also not a database: data held only in memory may be lost when a page is refreshed.</p>
+
+    <h3>3. Selected application to develop: Student Results Management System</h3>
+    <p>The application selected for this assignment is a <strong>Student Results Management System</strong>. It stores student names, identification numbers, courses and scores as objects inside one array. The user can add student results, search records, sort scores, remove records, and view the class average, highest score and pass rate.</p>
+    <p><strong>How arrays support this application:</strong></p>
+    <ol>
+      <li><strong>Storage:</strong> the <code>students</code> array keeps all student records in one collection.</li>
+      <li><strong>Indexing:</strong> an element can be accessed by position, such as <code>students[0]</code>.</li>
+      <li><strong>Traversal:</strong> array methods and loops process all records to calculate class statistics.</li>
+      <li><strong>Searching:</strong> the application checks array elements to find a matching student name, ID or course.</li>
+      <li><strong>Updating:</strong> new records can be added and existing records can be removed as the class list changes.</li>
+    </ol>
+    <div class="assignment-callout"><p><strong>Conclusion:</strong> Arrays are important because they provide an organised way to store and process related data. They are used in education, retail, banking, healthcare, weather analysis and multimedia systems. The Student Results Management System demonstrates these benefits through searching, sorting and calculating statistics from a collection of student records.</p></div>
+  </section>
   <section class="stats" aria-label="Class summary">
     <div class="stat"><div class="label">Students</div><div class="value" id="total">0</div><div class="sub">Records in the array</div></div>
     <div class="stat"><div class="label">Class average</div><div class="value" id="average">—</div><div class="sub">Mean of all scores</div></div>

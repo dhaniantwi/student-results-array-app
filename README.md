@@ -1,27 +1,25 @@
-# ArrayLab — Student Results Management System
+# ArrayLab | Student Results Management System
 
-A beginner-friendly Data Structures assignment demonstrating an array through a student results application.
+A browser-based Data Structures project demonstrating how arrays can be used in a Student Results Management System.
 
-## Run locally
-Open `index.html` in a web browser. No installation or build process is required.
+## Assignment answered on the page
 
-## Deploy with GitHub Pages
-1. Sign in to GitHub and create a new **public** repository, for example `student-results-array-app`.
-2. Upload `index.html` to the repository root and commit the file.
-3. Open **Settings → Pages**.
-4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select branch **main** and folder **/(root)**, then click **Save**.
-6. Wait for GitHub Pages to publish the site. The URL will be shown in the Pages section and will usually look like:
-   `https://YOUR-USERNAME.github.io/student-results-array-app/`
+The first section of the website answers the assignment: **“Describe real-world applications that require arrays as a data structure, explain why arrays are necessary, and choose one application to develop.”** It describes applications in student results management, inventory, banking, healthcare, weather monitoring, and media processing; explains the benefits and limitations of arrays; and selects the Student Results Management System as the application to demonstrate.
 
-## Array concepts demonstrated
-- Array of objects (`students`)
-- Indexed access (`students[0]`)
-- Traversal (`filter`, `forEach`, `reduce`)
-- Searching records
-- Sorting records
-- Insertion (`push`) and deletion (`splice`)
-- Calculating average, highest score and pass rate
+## Features
 
-## Important note
-This demo uses an in-memory JavaScript array. Records are reset when the page is refreshed. This is intentional for a simple array demonstration; a real student information system should use persistent storage, authentication, and appropriate privacy controls.
+- Add student results with name, ID, course and score
+- Search records by name, ID or course
+- Sort students by score
+- Remove individual records or clear the list
+- Calculate class average, highest score and pass rate
+- View example JavaScript showing arrays in action
+- Read the assignment answer before the interactive application
+
+## How to run
+
+Open `index.html` in a modern web browser. No installation or external library is required.
+
+## Important limitation
+
+This demonstration stores records in memory, so changes reset when the page is refreshed. A production system should use persistent storage and appropriate access controls.
